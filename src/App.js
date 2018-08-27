@@ -1,17 +1,11 @@
-const Pet = props => {
-  return React.createElement("div", {}, [
-    React.createElement("h1", {}, props.name),
-    React.createElement("h2", {}, props.animal),
-    React.createElement("h2", {}, props.breed)
-  ]);
-};
+import React from "react";
+import ReactDOM from "react-dom";
+import Pet from "./Pet.js";
 
 class App extends React.Component {
-  handleTitleClick() {
-    alert("You clicked the title");
-  }
   render() {
     //creates a div tag, no attributes (ex. { id: "my-id" } ), children (could be an array)
+    /*
     return React.createElement("div", {}, [
       React.createElement(
         "h1",
@@ -34,6 +28,17 @@ class App extends React.Component {
         breed: "Brazilian Shorthair"
       })
     ]);
+    */
+
+    //JSX verision of above code
+    return (
+      <div>
+        <h1> Adopt Me! </h1>
+        <Pet name="Luna" animal="dog" breed="Havanese" />
+        <Pet name="Pepper" animal="bird" breed="Cockatiel" />
+        <Pet name="Doink" animal="cat" breed="Mix" />
+      </div>
+    );
   }
 }
 
