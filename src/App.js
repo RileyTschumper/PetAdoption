@@ -1,8 +1,41 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Pet from "./Pet.js";
+import pf from "petfinder-client";
+
+const petfinder = pf({
+  key: process.env.API_KEY,
+  secret: process.env.API_SECRET
+});
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    //an array of pet data we load from API, inititalize it here to prevent it not existing
+    this.state = {
+      pets: []
+    };
+  }
+  componentDidMount() {
+    petfinder.pet
+      .find({ location: "Seattle, WA", output: "full" })
+      .then(data => {
+        let pets;
+        if (data.petfinder.pets && data.petfinder.pets.pet) {
+          if (Array.isArray(data.petfinder.pets.pet)) {
+            pets = data.petfinder.pets.pet;
+          } else {
+            pets = [data.petfinder.pets.pet];
+          }
+        } else {
+          pets = [];
+        }
+        this.setState({
+          pets
+        });
+      });
+  }
   render() {
     //creates a div tag, no attributes (ex. { id: "my-id" } ), children (could be an array)
     /*
@@ -33,10 +66,25 @@ class App extends React.Component {
     //JSX verision of above code
     return (
       <div>
-        <h1> Adopt Me! </h1>
-        <Pet name="Luna" animal="dog" breed="Havanese" />
-        <Pet name="Pepper" animal="bird" breed="Cockatiel" />
-        <Pet name="Doink" animal="cat" breed="Mix" />
+        <h1>Adopt Me!</h1>
+        {this.state.pets.map(pet => {
+          let breed;
+          if (Array.isArray(pet.breeds.breed)) {
+            breed = pet.breeds.breed.join(", ");
+          } else {
+            breed = pet.breeds.breed;
+          }
+          return (
+            <Pet
+              animal={pet.animal}
+              key={pet.id}
+              name={pet.name}
+              breed={breed}
+              media={pet.media}
+              location={`${pet.contact.city}, ${pet.contact.state}`}
+            />
+          );
+        })}
       </div>
     );
   }
