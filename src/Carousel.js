@@ -5,9 +5,7 @@ class Carousel extends React.Component {
     photos: [],
     active: 0
   };
-  static getDerivedStateFromProps(props) {
-    //pulls media from props
-    const media = props.media;
+  static getDerivedStateFromProps({ media }) {
     let photos = [];
     if (media && media.photos && media.photos.photo) {
       //filters out all of the photos that are not "pn"
@@ -30,10 +28,11 @@ class Carousel extends React.Component {
     const { photos, active } = this.state;
     return (
       <div className="carousel">
-        //pulls photo[0].value (.value gives the address to photo)
+        {/* pulls photo[0].value (.value gives the address to photo) */}
         <img src={photos[active].value} alt="animal" />
         <div className="carousel-smaller">
           {photos.map((photo, index) => (
+            /* eslint-disable-next-line */
             <img
               onClick={this.handleIndexClick}
               data-index={index}
