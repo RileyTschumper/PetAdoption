@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { Router, Link } from "@reach/router";
 import pf from "petfinder-client";
 import { Provider } from "./SearchContext";
+//import { Consumer } from "./SearchContext";
 import Details from "./Details";
 import Results from "./Results";
 import SearchParams from "./SearchParams";
@@ -81,6 +82,7 @@ class App extends React.Component {
       <div>
         <header>
           <Link to="/">Adopt Me!</Link>
+          <Link to="/search-params">Search</Link>
         </header>
         <Provider value={this.state}>
           <Router>
